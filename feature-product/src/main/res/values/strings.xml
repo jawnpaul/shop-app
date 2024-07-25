@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nine_plus">9+</string>
+    <string name="back">Back</string>
+    <string name="product_detail">Product detail</string>
+    <string name="product_image">Product Image</string>
+    <string name="add_item_to_cart">Add Item to Cart</string>
+    <string name="buy_now">Buy now</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
+</resources>
