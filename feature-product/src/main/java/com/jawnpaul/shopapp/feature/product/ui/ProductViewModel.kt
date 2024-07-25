@@ -56,7 +56,7 @@ class ProductViewModel @Inject constructor(
         getCartSize()
     }
 
-    private fun getProducts() {
+     fun getProducts() {
         _productList.update { it.copy(loading = true, error = null) }
         productRepository.getProducts().onEach(::updateProducts).catch { throwable ->
             _productList.update { it.copy(loading = false, error = "Something went wrong.") }
@@ -112,9 +112,9 @@ class ProductViewModel @Inject constructor(
 
     private fun updateProductState() {
         viewModelScope.launch {
-            selectedProductId?.let {
-                val count = cartRepository.getProductCount(it)
-                _selectedProduct.update { aa -> aa.copy(count = count) }
+            selectedProductId?.let { id ->
+                val count = cartRepository.getProductCount(id)
+                _selectedProduct.update { it.copy(count = count) }
             }
         }
     }
