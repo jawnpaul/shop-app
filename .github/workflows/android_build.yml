@@ -42,4 +42,4 @@ jobs:
           path: '**/build/reports/tests/'
         
       - name: Build Project
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleRelease
