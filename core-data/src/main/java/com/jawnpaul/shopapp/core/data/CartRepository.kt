@@ -60,7 +60,7 @@ class CartRepositoryImpl @Inject constructor(private val cartDao: CartDao) : Car
         }
     }
 
-    override suspend fun getProductCount(productId: Int): Int {
+            override suspend fun getProductCount(productId: Int): Int {
         val entity = cartDao.getSingleCartItem(productId)
         return entity?.count ?: 0
     }
