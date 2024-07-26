@@ -18,17 +18,16 @@ package com.jawnpaul.shopapp.core.data.di
 
 import com.jawnpaul.shopapp.core.data.CartRepository
 import com.jawnpaul.shopapp.core.data.CartRepositoryImpl
+import com.jawnpaul.shopapp.core.data.ProductRepository
+import com.jawnpaul.shopapp.core.data.ProductRepositoryImpl
+import com.jawnpaul.shopapp.core.data.model.Product
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import com.jawnpaul.shopapp.core.data.ProductRepository
-import com.jawnpaul.shopapp.core.data.ProductRepositoryImpl
-import com.jawnpaul.shopapp.core.data.model.Product
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,13 +35,32 @@ interface DataModule {
 
     @Singleton
     @Binds
-    fun bindsProductRepository(
-        productRepository: ProductRepositoryImpl
-    ): ProductRepository
+    fun bindsProductRepository(productRepository: ProductRepositoryImpl): ProductRepository
 
     @Singleton
     @Binds
-    fun bindsCartRepository(
-        cartRepositoryImpl: CartRepositoryImpl
-    ): CartRepository
+    fun bindsCartRepository(cartRepositoryImpl: CartRepositoryImpl): CartRepository
 }
+
+class FakeProductRepository : ProductRepository {
+
+    override fun getProducts(): Flow<List<Product>> {
+        return flowOf(fakeProducts)
+    }
+
+    override suspend fun getSingleProduct(productId: Int): Product {
+        TODO("Not yet implemented")
+    }
+}
+
+val fakeProducts = listOf(
+    Product(
+        productServerId = 1,
+        imageUrl = "",
+        name = "",
+        description = "",
+        price = 1,
+        currencySymbol = "$",
+        quantity = 10
+    )
+)

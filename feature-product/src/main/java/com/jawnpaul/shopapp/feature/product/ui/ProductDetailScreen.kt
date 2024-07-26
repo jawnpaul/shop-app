@@ -49,11 +49,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductDetailScreen(
-    modifier: Modifier = Modifier,
-    navController: NavController,
-    viewModel: ProductViewModel
-) {
+fun ProductDetailScreen(modifier: Modifier = Modifier, navController: NavController, viewModel: ProductViewModel) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     var showBottomSheet by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
@@ -61,7 +57,6 @@ fun ProductDetailScreen(
 
     val cartSize = viewModel.cartSize.collectAsStateWithLifecycle()
     val productState = viewModel.selectedProduct.collectAsStateWithLifecycle()
-
 
     Scaffold(
         topBar = {
@@ -95,15 +90,13 @@ fun ProductDetailScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp)
         ) {
-
             if (cartSize.value > 0) {
                 Spacer(modifier = Modifier.size(4.dp))
                 CartUI(cartSize = cartSize.value)
             }
 
-
             productState.value.product?.let { product ->
-                //Image
+                // Image
                 Surface(
                     modifier = Modifier
                         .padding(top = 16.dp, bottom = 24.dp)
@@ -127,9 +120,10 @@ fun ProductDetailScreen(
 
                 Spacer(modifier = Modifier.size(48.dp))
 
-                Button(modifier = Modifier.fillMaxWidth(),
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        //show bottom sheet
+                        // show bottom sheet
                         showBottomSheet = true
                     }
 
@@ -144,9 +138,7 @@ fun ProductDetailScreen(
                 ) {
                     Text(stringResource(R.string.buy_now))
                 }
-
             }
-
         }
 
         if (showBottomSheet) {
@@ -156,7 +148,7 @@ fun ProductDetailScreen(
                 },
                 sheetState = sheetState
             ) {
-                //Sheet content
+                // Sheet content
                 Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
                     Text(stringResource(R.string.add_item_to_cart))
 
@@ -191,14 +183,16 @@ fun ProductDetailScreen(
                         }
                     }
 
-                    Button(modifier = Modifier.fillMaxWidth(),
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
                         onClick = {
                             coroutineScope.launch { sheetState.hide() }.invokeOnCompletion {
                                 if (!sheetState.isVisible) {
                                     showBottomSheet = false
                                 }
                             }
-                        }) {
+                        }
+                    ) {
                         Text("Done")
                     }
 
@@ -206,6 +200,5 @@ fun ProductDetailScreen(
                 }
             }
         }
-
     }
 }

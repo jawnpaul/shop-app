@@ -22,101 +22,96 @@ class CartRepositoryImplTest {
 
     @Test
     fun `getCartItems should return a list of cartItems`() = runTest {
-        //Given
+        // Given
         cartDao.insert(CartEntity(productId = 1, count = 2))
         cartDao.getCartItems()
 
-        //When
+        // When
         val result = repository.getCartItems()
 
-        //Then
-        result.collect{
+        // Then
+        result.collect {
             assertThat(it).isInstanceOf(List::class.java)
             assertThat(it.isNotEmpty()).isTrue()
         }
-
     }
 
     @Test
     fun `getCartItems should return a emptyList when empty`() = runTest {
-        //Given
+        // Given
         cartDao.getCartItems()
 
-        //When
+        // When
         val result = repository.getCartItems()
 
-        //Then
-        result.collect{
+        // Then
+        result.collect {
             assertThat(it).isInstanceOf(List::class.java)
             assertThat(it.isEmpty()).isTrue()
         }
-
     }
 
     @Test
     fun `insertItem should save cart item`() = runTest {
-        //Given
+        // Given
         val productId = 1
 
-        //When
+        // When
         repository.insertItem(productId)
 
-        //Then
+        // Then
         assertThat(cartDao.getSingleCartItem(productId)?.productId).isEqualTo(productId)
-
     }
 
     @Test
     fun `insertItem should increase item count when item exists`() = runTest {
-        //Given
+        // Given
         val productId = 1
         cartDao.insert(CartEntity(productId = productId, count = 1))
 
-        //When
+        // When
         repository.insertItem(productId)
 
-        //Then
+        // Then
         assertThat(cartDao.getSingleCartItem(productId)?.count).isEqualTo(2)
-
     }
 
     @Test
     fun `removeItem should remove item`() = runTest {
-        //Given
+        // Given
         val productId = 1
         cartDao.insert(CartEntity(productId = productId, count = 1))
 
-        //When
+        // When
         repository.removeItem(productId)
 
-        //Then
+        // Then
         assertThat(cartDao.getSingleCartItem(productId)).isEqualTo(null)
     }
 
     @Test
     fun `removeItem should decrease item count when item exits`() = runTest {
-        //Given
+        // Given
         val productId = 1
         cartDao.insert(CartEntity(productId = productId, count = 2))
 
-        //When
+        // When
         repository.removeItem(productId)
 
-        //Then
+        // Then
         assertThat(cartDao.getSingleCartItem(productId)?.count).isEqualTo(1)
     }
 
     @Test
     fun `getProductCount should return correct count`() = runTest {
-        //Given
+        // Given
         val productId = 1
         cartDao.insert(CartEntity(productId = productId, count = 10))
 
-
-        //When
+        // When
         val result = repository.getProductCount(productId)
 
-        //Then
+        // Then
         assertThat(result).isEqualTo(10)
     }
 }
@@ -145,5 +140,4 @@ class FakeCartDao : CartDao {
     override suspend fun deleteItem(cartEntity: CartEntity) {
         fakeData.remove(cartEntity)
     }
-
 }

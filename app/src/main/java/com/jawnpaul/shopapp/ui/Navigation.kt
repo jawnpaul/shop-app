@@ -49,7 +49,6 @@ fun MainNavigation() {
             }
             val parentViewModel = hiltViewModel<ProductViewModel>(parentEntry)
             ProductDetailScreen(navController = navController, viewModel = parentViewModel)
-
         }
     }
 }

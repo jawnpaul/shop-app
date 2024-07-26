@@ -24,13 +24,13 @@ import com.jawnpaul.shopapp.core.data.ProductRepository
 import com.jawnpaul.shopapp.core.data.model.Cart
 import com.jawnpaul.shopapp.core.data.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
@@ -56,7 +56,7 @@ class ProductViewModel @Inject constructor(
         getCartSize()
     }
 
-     fun getProducts() {
+    fun getProducts() {
         _productList.update { it.copy(loading = true, error = null) }
         productRepository.getProducts().onEach(::updateProducts).catch { throwable ->
             _productList.update { it.copy(loading = false, error = "Something went wrong.") }
@@ -118,6 +118,4 @@ class ProductViewModel @Inject constructor(
             }
         }
     }
-
 }
-

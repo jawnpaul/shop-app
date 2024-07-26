@@ -29,7 +29,6 @@ class ProductViewModelTest {
     private lateinit var savedStateHandle: SavedStateHandle
     private val testDispatcher = UnconfinedTestDispatcher()
 
-
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
@@ -39,35 +38,33 @@ class ProductViewModelTest {
         viewModel = ProductViewModel(savedStateHandle, productRepository, cartRepository)
     }
 
-
     @Test
     fun `getProducts updates productList state correctly`() = runTest {
-        //Given
+        // Given
         val products = productRepository.getProducts().first()
 
-        //When
+        // When
         viewModel.getProducts()
 
         val listState = viewModel.productList.first()
 
-        //Then
+        // Then
         assertThat(listState.loading).isFalse()
         assertThat(listState.productList).isInstanceOf(List::class.java)
         assertThat(listState.productList).isEqualTo(products)
-
     }
 
     @Test
     fun `getProducts handle error correctly`() = runTest {
-        //Given
+        // Given
         val productRepository = FakeProductRepository(true)
         viewModel = ProductViewModel(savedStateHandle, productRepository, cartRepository)
 
-        //When
+        // When
         viewModel.getProducts()
 
         val listState = viewModel.productList.first()
-        //Then
+        // Then
         assertThat(listState.loading).isFalse()
         assertThat(listState.productList).isEmpty()
         assertThat(listState.error).isNotNull()
@@ -86,7 +83,6 @@ class ProductViewModelTest {
         // Then
         assertThat(savedStateHandle.get<Int>("product_id")).isEqualTo(productId)
         assertThat(viewModel.selectedProduct.value.product).isEqualTo(product)
-
     }
 
     @Test
@@ -113,7 +109,7 @@ class ProductViewModelTest {
         val productId = 1
         savedStateHandle["product_id"] = productId
 
-        //When
+        // When
         viewModel.removeFromCart()
 
         // Then
@@ -129,9 +125,7 @@ class ProductViewModelTest {
     fun tearDown() {
         Dispatchers.resetMain()
     }
-
 }
-
 
 class FakeProductRepository(private val shouldThrowException: Boolean = false) : ProductRepository {
     private val products =
@@ -158,7 +152,6 @@ class FakeProductRepository(private val shouldThrowException: Boolean = false) :
     override suspend fun getSingleProduct(productId: Int): Product {
         return products.first { it.productServerId == productId }
     }
-
 }
 
 class FakeCartRepository : CartRepository {
@@ -177,7 +170,7 @@ class FakeCartRepository : CartRepository {
             if (match.isEmpty()) {
                 cartItems.add(Cart(productId = productId, count = 1))
             } else {
-                //increase count
+                // increase count
                 val oldCount = match[0].count
                 cartItems.remove(Cart(productId = productId, count = oldCount))
                 cartItems.add(Cart(productId = productId, count = oldCount + 1))
@@ -186,16 +179,13 @@ class FakeCartRepository : CartRepository {
     }
 
     override suspend fun removeItem(productId: Int) {
-
         val oldCount = cartItems.first { it.productId == productId }.count
         cartItems.remove(Cart(productId = productId, count = oldCount))
         cartItems.add(Cart(productId = productId, count = oldCount - 1))
-
     }
 
     override suspend fun getProductCount(productId: Int): Int {
         val item = cartItems.first { it.productId == productId }
         return item.count
     }
-
 }

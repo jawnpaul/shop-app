@@ -18,13 +18,8 @@ package com.jawnpaul.shopapp.feature.product.ui
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.jawnpaul.shopapp.core.data.model.Product
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
@@ -35,18 +30,4 @@ class ProductScreenTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-
-    @Before
-    fun setup() {
-        composeTestRule.setContent {
-            ProductScreen(FAKE_DATA, onSave = {})
-        }
-    }
-
-    @Test
-    fun firstItem_exists() {
-        composeTestRule.onNodeWithText(FAKE_DATA.first().productServerId).assertExists().performClick()
-    }
 }
-
-private val FAKE_DATA = listOf(Product("Compose"), Product("Room"), Product("Kotlin"))

@@ -18,14 +18,14 @@ package com.jawnpaul.shopapp.core.database.di
 
 import android.content.Context
 import androidx.room.Room
+import com.jawnpaul.shopapp.core.database.AppDatabase
+import com.jawnpaul.shopapp.core.database.CartDao
+import com.jawnpaul.shopapp.core.database.ProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import com.jawnpaul.shopapp.core.database.AppDatabase
-import com.jawnpaul.shopapp.core.database.CartDao
-import com.jawnpaul.shopapp.core.database.ProductDao
 import javax.inject.Singleton
 
 @Module

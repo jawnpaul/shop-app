@@ -20,12 +20,12 @@ import com.jawnpaul.shopapp.core.data.model.Product
 import com.jawnpaul.shopapp.core.database.ProductDao
 import com.jawnpaul.shopapp.core.database.ProductEntity
 import com.thejawnpaul.core.remote.ProductService
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 interface ProductRepository {
 
@@ -76,18 +76,17 @@ class ProductRepositoryImpl @Inject constructor(
         insertProducts(cacheModel)
     }.filter(List<Product>::isNotEmpty)
 
-    override suspend fun getSingleProduct(productId: Int): Product =
-        with(productDao.getProduct(productId)) {
-            Product(
-                productServerId = productServerId,
-                imageUrl = imageUrl,
-                name = name,
-                description = description,
-                price = price,
-                currencySymbol = currencySymbol,
-                quantity = quantity
-            )
-        }
+    override suspend fun getSingleProduct(productId: Int): Product = with(productDao.getProduct(productId)) {
+        Product(
+            productServerId = productServerId,
+            imageUrl = imageUrl,
+            name = name,
+            description = description,
+            price = price,
+            currencySymbol = currencySymbol,
+            quantity = quantity
+        )
+    }
 
     private suspend fun insertProducts(items: List<ProductEntity>) {
         productDao.insertAll(items)

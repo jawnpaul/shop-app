@@ -16,23 +16,21 @@
 
 package com.jawnpaul.shopapp.test.app.testdi
 
+import com.jawnpaul.shopapp.core.data.ProductRepository
+import com.jawnpaul.shopapp.core.data.di.DataModule
+import com.jawnpaul.shopapp.core.data.di.FakeProductRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import com.jawnpaul.shopapp.core.data.ProductRepository
-import com.jawnpaul.shopapp.core.data.di.DataModule
-import com.jawnpaul.shopapp.core.data.di.FakeProductRepository
 
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
     replaces = [DataModule::class]
 )
-interface FakeDataModule {
+interface TestDatabaseModule {
 
     @Binds
-    abstract fun bindRepository(
-        fakeRepository: FakeProductRepository
-    ): ProductRepository
+    abstract fun bindRepository(fakeRepository: FakeProductRepository): ProductRepository
 }

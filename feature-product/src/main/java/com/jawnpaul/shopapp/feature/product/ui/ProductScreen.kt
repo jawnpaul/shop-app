@@ -47,7 +47,6 @@ import com.jawnpaul.shopapp.feature.product.R
 
 @Composable
 fun ProductScreen(modifier: Modifier = Modifier, navController: NavController, viewModel: ProductViewModel) {
-
     val cartSize = viewModel.cartSize.collectAsStateWithLifecycle()
     val products = viewModel.productList.collectAsStateWithLifecycle()
 
@@ -57,16 +56,15 @@ fun ProductScreen(modifier: Modifier = Modifier, navController: NavController, v
             .padding(start = 16.dp, end = 16.dp, top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-
         if (cartSize.value > 0) {
-            //Show cart
+            // Show cart
             item {
                 CartUI(cartSize = cartSize.value)
             }
         }
 
         if (products.value.loading) {
-            //Show Loading
+            // Show Loading
             item {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
@@ -75,24 +73,20 @@ fun ProductScreen(modifier: Modifier = Modifier, navController: NavController, v
         if (products.value.productList.isNotEmpty()) {
             items(
                 items = products.value.productList,
-                key = { product -> product.productServerId }) { product ->
-                SingleProductItem(modifier = Modifier, product){
-                    //navigate to detail page
+                key = { product -> product.productServerId }
+            ) { product ->
+                SingleProductItem(modifier = Modifier, product) {
+                    // navigate to detail page
                     viewModel.selectProduct(it)
                     navController.navigate("product_detail")
                 }
             }
         }
-
     }
 }
 
 @Composable
-fun SingleProductItem(
-    modifier: Modifier = Modifier,
-    product: Product,
-    onClick: (productId: Int) -> Unit
-) {
+fun SingleProductItem(modifier: Modifier = Modifier, product: Product, onClick: (productId: Int) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -101,14 +95,12 @@ fun SingleProductItem(
             onClick(product.productServerId)
         }
     ) {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             Surface(
                 modifier = Modifier.size(80.dp),
                 shape = RoundedCornerShape(corner = CornerSize(8.dp))
@@ -122,18 +114,17 @@ fun SingleProductItem(
             }
 
             Column(modifier = Modifier.padding(start = 8.dp)) {
-                //Name
+                // Name
                 Text(
                     text = product.name,
                     style = MaterialTheme.typography.titleMedium
                 )
-                //Price
+                // Price
                 Text(
                     text = product.priceText,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
-
         }
     }
 }

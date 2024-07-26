@@ -17,16 +17,16 @@ import com.jawnpaul.shopapp.feature.product.R
 
 @Composable
 fun CartUI(modifier: Modifier = Modifier, cartSize: Int) {
-
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-
-        Box(modifier = Modifier
-            .size(40.dp)
-            .drawBehind {
-                drawCircle(
-                    color = Color.Red
-                )
-            }) {
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .drawBehind {
+                    drawCircle(
+                        color = Color.Red
+                    )
+                }
+        ) {
             val text = if (cartSize > 9) {
                 stringResource(R.string.nine_plus)
             } else {
@@ -36,5 +36,4 @@ fun CartUI(modifier: Modifier = Modifier, cartSize: Int) {
             Text(text = text, modifier = Modifier.align(Alignment.Center), color = Color.White)
         }
     }
-
 }

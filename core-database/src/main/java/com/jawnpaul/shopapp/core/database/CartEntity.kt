@@ -18,7 +18,7 @@ data class CartEntity(
 )
 
 @Dao
-interface CartDao{
+interface CartDao {
 
     @Query("SELECT * FROM cart_table")
     fun getCartItems(): Flow<List<CartEntity>>
@@ -33,7 +33,7 @@ interface CartDao{
     suspend fun deleteItem(cartEntity: CartEntity)
 
     @Transaction
-    suspend fun removeItemAndUpdateInTransaction(oldItem: CartEntity, newItem: CartEntity){
+    suspend fun removeItemAndUpdateInTransaction(oldItem: CartEntity, newItem: CartEntity) {
         deleteItem(oldItem)
         insert(newItem)
     }

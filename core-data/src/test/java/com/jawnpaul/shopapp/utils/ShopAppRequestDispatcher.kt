@@ -1,9 +1,9 @@
 package com.jawnpaul.shopapp.utils
 
+import java.net.HttpURLConnection
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
-import java.net.HttpURLConnection
 
 class ShopAppRequestDispatcher {
 
@@ -28,23 +28,20 @@ class ShopAppRequestDispatcher {
      * Return bad request response from mock server
      */
     internal inner class BadRequestDispatcher : Dispatcher() {
-        override fun dispatch(request: RecordedRequest) =
-            MockResponse().setResponseCode(HttpURLConnection.HTTP_BAD_REQUEST)
+        override fun dispatch(request: RecordedRequest) = MockResponse().setResponseCode(HttpURLConnection.HTTP_BAD_REQUEST)
     }
 
     /**
      * Return server error response from mock server
      */
     internal inner class ErrorRequestDispatcher : Dispatcher() {
-        override fun dispatch(request: RecordedRequest) =
-            MockResponse().setResponseCode(HttpURLConnection.HTTP_INTERNAL_ERROR)
+        override fun dispatch(request: RecordedRequest) = MockResponse().setResponseCode(HttpURLConnection.HTTP_INTERNAL_ERROR)
     }
 
     /**
      * Return incorrect body(aka null) response from mock server
      */
     internal inner class IncorrectBodyRequestDispatcher : Dispatcher() {
-        override fun dispatch(request: RecordedRequest) =
-            MockResponse().setResponseCode(HttpURLConnection.HTTP_NO_CONTENT)
+        override fun dispatch(request: RecordedRequest) = MockResponse().setResponseCode(HttpURLConnection.HTTP_NO_CONTENT)
     }
 }

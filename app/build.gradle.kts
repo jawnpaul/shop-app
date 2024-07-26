@@ -17,7 +17,7 @@
 @Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.kapt)
@@ -69,7 +69,7 @@ android {
         shaders = false
     }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -105,3 +105,10 @@ dependencies {
     // Tooling
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
+
+tasks.register<Copy>("installGitHook") {
+    from(file("${rootProject.rootDir}/scripts/pre-commit"))
+    into(file("${rootProject.rootDir}/.git/hooks"))
+}
+
+tasks.getByPath(":app:preBuild").dependsOn("installGitHook")

@@ -8,6 +8,6 @@ data class Product(
     val price: Int,
     val currencySymbol: String,
     val quantity: Int
-){
-    val priceText = "${currencySymbol}${price}"
+) {
+    val priceText = "${currencySymbol}$price"
 }

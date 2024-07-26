@@ -2,12 +2,12 @@ package com.jawnpaul.shopapp.utils
 
 import com.google.common.io.Resources
 import com.thejawnpaul.core.remote.ProductService
+import java.io.File
+import java.net.URL
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.io.File
-import java.net.URL
 
 private val okHttpClient: OkHttpClient
     get() = OkHttpClient.Builder()

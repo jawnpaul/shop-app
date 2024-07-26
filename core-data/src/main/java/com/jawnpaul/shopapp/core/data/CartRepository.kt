@@ -3,11 +3,11 @@ package com.jawnpaul.shopapp.core.data
 import com.jawnpaul.shopapp.core.data.model.Cart
 import com.jawnpaul.shopapp.core.database.CartDao
 import com.jawnpaul.shopapp.core.database.CartEntity
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 interface CartRepository {
 
@@ -51,7 +51,7 @@ class CartRepositoryImpl @Inject constructor(private val cartDao: CartDao) : Car
             val newCount = entity.count - 1
             if (newCount < 1) {
                 // We can't have an item with 0 count
-                //delete item
+                // delete item
                 cartDao.deleteItem(entity)
             } else {
                 val newEntity = CartEntity(productId = productId, count = newCount)
@@ -60,9 +60,8 @@ class CartRepositoryImpl @Inject constructor(private val cartDao: CartDao) : Car
         }
     }
 
-            override suspend fun getProductCount(productId: Int): Int {
+    override suspend fun getProductCount(productId: Int): Int {
         val entity = cartDao.getSingleCartItem(productId)
         return entity?.count ?: 0
     }
-
 }

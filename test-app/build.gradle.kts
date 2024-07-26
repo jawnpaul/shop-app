@@ -16,8 +16,8 @@
 
 @Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
-    alias(libs.plugins.android.test)
-    alias(libs.plugins.kotlin.android)
+    id(libs.plugins.android.test.get().pluginId)
+    id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.kotlin.kapt)
 }
 
