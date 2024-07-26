@@ -4,14 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import com.google.common.truth.Truth.assertThat
 import com.jawnpaul.shopapp.core.data.CartRepository
 import com.jawnpaul.shopapp.core.data.ProductRepository
-import com.jawnpaul.shopapp.core.data.model.Cart
-import com.jawnpaul.shopapp.core.data.model.Product
+import com.jawnpaul.shopapp.feature.product.ui.fakes.FakeCartRepository
+import com.jawnpaul.shopapp.feature.product.ui.fakes.FakeProductRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -124,68 +121,5 @@ class ProductViewModelTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
-    }
-}
-
-class FakeProductRepository(private val shouldThrowException: Boolean = false) : ProductRepository {
-    private val products =
-        listOf(
-            Product(
-                productServerId = 1,
-                price = 1,
-                description = "Description",
-                imageUrl = "",
-                currencySymbol = "",
-                quantity = 2,
-                name = ""
-            )
-        )
-
-    override fun getProducts(): Flow<List<Product>> = flow {
-        if (shouldThrowException) {
-            throw Exception("Something went wrong.")
-        } else {
-            emit(products)
-        }
-    }
-
-    override suspend fun getSingleProduct(productId: Int): Product {
-        return products.first { it.productServerId == productId }
-    }
-}
-
-class FakeCartRepository : CartRepository {
-
-    private val cartItems = mutableListOf(Cart(productId = 1, count = 3))
-
-    override fun getCartItems(): Flow<List<Cart>> {
-        return flowOf(cartItems)
-    }
-
-    override suspend fun insertItem(productId: Int) {
-        if (cartItems.isEmpty()) {
-            cartItems.add(Cart(productId = productId, count = 1))
-        } else {
-            val match = cartItems.filter { it.productId == productId }
-            if (match.isEmpty()) {
-                cartItems.add(Cart(productId = productId, count = 1))
-            } else {
-                // increase count
-                val oldCount = match[0].count
-                cartItems.remove(Cart(productId = productId, count = oldCount))
-                cartItems.add(Cart(productId = productId, count = oldCount + 1))
-            }
-        }
-    }
-
-    override suspend fun removeItem(productId: Int) {
-        val oldCount = cartItems.first { it.productId == productId }.count
-        cartItems.remove(Cart(productId = productId, count = oldCount))
-        cartItems.add(Cart(productId = productId, count = oldCount - 1))
-    }
-
-    override suspend fun getProductCount(productId: Int): Int {
-        val item = cartItems.first { it.productId == productId }
-        return item.count
     }
 }
