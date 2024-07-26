@@ -16,7 +16,6 @@
 
 package com.jawnpaul.shopapp.core.data
 
-
 import com.jawnpaul.shopapp.core.data.model.Product
 import com.jawnpaul.shopapp.core.database.ProductDao
 import com.jawnpaul.shopapp.core.database.ProductEntity
@@ -33,9 +32,6 @@ interface ProductRepository {
     fun getProducts(): Flow<List<Product>>
 
     suspend fun getSingleProduct(productId: Int): Product
-
-    suspend fun insertProducts(items: List<ProductEntity>)
-
 }
 
 class ProductRepositoryImpl @Inject constructor(
@@ -80,7 +76,6 @@ class ProductRepositoryImpl @Inject constructor(
         insertProducts(cacheModel)
     }.filter(List<Product>::isNotEmpty)
 
-
     override suspend fun getSingleProduct(productId: Int): Product =
         with(productDao.getProduct(productId)) {
             Product(
@@ -94,8 +89,7 @@ class ProductRepositoryImpl @Inject constructor(
             )
         }
 
-    override suspend fun insertProducts(items: List<ProductEntity>) {
-
+    private suspend fun insertProducts(items: List<ProductEntity>) {
         productDao.insertAll(items)
     }
 }
