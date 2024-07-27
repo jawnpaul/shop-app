@@ -29,7 +29,11 @@ Hi 👋🏼👋🏼👋🏼 Thanks for checking out my project. For the rest of 
 
 ## Architecture
 
+<img width="800" alt="Image" src="https://github.com/user-attachments/assets/ea0f126c-9372-4712-9a3d-a377f1bd1379"> <br/>
+
+
 The Shop App follows the [official architecture guidance](https://developer.android.com/topic/architecture) because of the benefits it brings to software which includes scalability, maintainability and testability. It enforces separation of concerns and dependency inversion, where higher and lower level layers all depend on abstractions.
+
 
 The project contains the following types of modules:
 - The `app` module - contains app level and scaffolding classes that bind the rest of the codebase, such as `MainActivity` and app-level controlled navigation. The `app` module depends on all `feature` modules and required `core` modules.
@@ -102,7 +106,7 @@ The project contains the following types of modules:
 Libraries used in the application are:
 
 - [Jetpack](https://developer.android.com/jetpack)
-  - [Viewmodel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Manage UI related data in a lifecycle conscious way and act as a channel between use cases and UI.
+  - [Viewmodel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Manage UI related data in a lifecycle conscious way. It exposes state to the UI and encapsulates related business logic.
   - [Compose](https://developer.android.com/jetpack/androidx/releases/compose) - Define your UI programmatically with composable functions that describe its shape and data dependencies.
   - [Navigation](https://developer.android.com/jetpack/androidx/releases/navigation) - Build and structure your in-app UI, handle deep links, and navigate between screens.
   - [Room](https://developer.android.com/jetpack/androidx/releases/room) - Create, store, and manage persistent data backed by a SQLite database.
@@ -123,7 +127,7 @@ Testing is done with Junit4 testing framework, and with Google Truth for making 
 The viewmodel is also unit-tested to ensure correct states are rendered.
 
 ## Extras
-The project uses ktlint to enforce proper code style. Github actions handles continous integration, and runs ktlint and unit tests.
+The project uses ktlint to enforce proper code style. Github actions handles continous integration, runs ktlint and unit tests.
 
 ## Demo
 
